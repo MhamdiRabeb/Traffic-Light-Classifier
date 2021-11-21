@@ -9,13 +9,7 @@ import matplotlib.image as mpimg # for loading in images
 import test_functions
 %matplotlib inline
 
-# Image data directories
-IMAGE_DIR_TRAINING = "traffic_light_images/training/"
-IMAGE_DIR_TEST = "traffic_light_images/test/"
 
-# Using the load_dataset function in helpers.py
-# Load training data
-IMAGE_LIST = helpers.load_dataset(IMAGE_DIR_TRAINING)
 
 
 # This function should take in an RGB image and return a new, standardized version
@@ -111,3 +105,35 @@ def get_misclassified_images(test_images):
     # Return the list of misclassified [image, predicted_label, true_label] values
     return misclassified_images_labels
 
+
+
+# Image data directories
+IMAGE_DIR_TRAINING = "traffic_light_images/training/"
+IMAGE_DIR_TEST = "traffic_light_images/test/"
+# Using the load_dataset function in helpers.py
+# Load training data
+IMAGE_LIST = helpers.load_dataset(IMAGE_DIR_TRAINING)
+
+# Image data directories
+IMAGE_DIR_TEST = "traffic_light_images/test/"
+# Load test data
+TEST_IMAGE_LIST = helpers.load_dataset(IMAGE_DIR_TEST)
+# Standardize the test data
+STANDARDIZED_TEST_LIST = standardize(TEST_IMAGE_LIST)
+# Find all misclassified images in a given test set
+MISCLASSIFIED = get_misclassified_images(STANDARDIZED_TEST_LIST)
+
+# Accuracy calculations
+total = len(STANDARDIZED_TEST_LIST)
+num_correct = total - len(MISCLASSIFIED)
+accuracy = num_correct/total
+
+print('Accuracy: ' + str(accuracy))
+print("Number of misclassified images = " + str(len(MISCLASSIFIED)) +' out of '+ str(total))
+# Visualize misclassified example(s)
+## TODO: Display an image in the `MISCLASSIFIED` list 
+misclassified_image=MISCLASSIFIED[13][0]
+plt.imshow(misclassified_image)
+## TODO: Print out its predicted label - to see what the image *was* incorrectly classified as
+misclassified_image_label=MISCLASSIFIED[0][1]
+print("misclassified_image_label", misclassified_image_label)
